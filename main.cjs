@@ -2,17 +2,26 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('node:path')
 // const { app, BrowserWindow } = require('electron/main')
 
+const isDev = process.env.NODE_ENV === 'development';
+
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname,  'src/main/preload.js')
+      preload: path.join(__dirname, 'preload.js')
     }
   })
 
-  win.loadFile('index.html')
+  win.loadFile('./dist/index.html')
+
+  if (isDev) {
+    win.loadURL('http://localhost:5173');
+  } else {
+    win.loadFile(path.join(__dirname, 'dist/index.html'));
+  }
 }
+
 
 app.whenReady().then(() => {
   ipcMain.handle('ping', () => 'pong')
