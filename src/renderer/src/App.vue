@@ -21,5 +21,4 @@ const items = ref([
  <div class="card">
         <Menubar :model="items" />
     </div>
-    <h1>hola</h1>
 </template>
