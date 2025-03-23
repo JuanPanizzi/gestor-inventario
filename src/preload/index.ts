@@ -2,7 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
-const productsApi = {
+const productsAPI = {
   getProducts: () => ipcRenderer.invoke('get-products'),
 }
 
@@ -12,7 +12,7 @@ const productsApi = {
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
-    contextBridge.exposeInMainWorld('productsApi', productsApi)
+    contextBridge.exposeInMainWorld('electronAPI', productsAPI)
   } catch (error) {
     console.error(error)
   }
@@ -21,6 +21,6 @@ if (process.contextIsolated) {
   window.electron = electronAPI
   // @ts-ignore (define in dts)
 // @ts-ignore
-window.productsApi = productsApi;
+window.productsAPI = productsAPI;
 
 }
