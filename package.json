@@ -24,6 +24,7 @@
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^4.0.0",
     "@primeuix/themes": "^1.0.0",
+    "better-sqlite3": "^11.9.1",
     "electron-updater": "^6.3.9",
     "primeicons": "^7.0.0",
     "primevue": "^4.3.2",
