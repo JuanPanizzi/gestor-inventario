@@ -13,13 +13,15 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { Column, DataTable } from 'primevue';
-import { getProducts } from '../composables/useProducts.js'
-    const products = ref(null);
+import { useProducts } from '../composables/useProducts.js'
 
+    const products = ref(null);
+    const { getProducts } = useProducts();
     
     onMounted(async () => {
         const response = await getProducts();
         if(response.success){
+            console.log('response.data on productsTable: 23 ', response.data)
           products.value = response.data
         }
     });

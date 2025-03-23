@@ -1,5 +1,5 @@
 
-export default async function useProducts() {
+export function useProducts() {
     
 
     const getProducts = async() => {
