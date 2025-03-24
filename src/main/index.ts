@@ -19,6 +19,11 @@ function createWindow(): void {
     }
   })
 
+  ipcMain.handle('ping', () => {
+    console.log('pongo')
+    return 'pong'}
+  )
+
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
   })

@@ -20,10 +20,11 @@ import { useProducts } from '../composables/useProducts.js'
     
     onMounted(async () => {
         const response = await getProducts();
-        if(response.success){
-            console.log('response.data on productsTable: 23 ', response.data)
-          products.value = response.data
-        }
+        console.log('repsonse', response)
+        // if(response.success){
+        //     console.log('response.data on productsTable: 23 ', response.data)
+        //   products.value = response.data
+        // }
     });
 
 </script>

@@ -12,7 +12,10 @@ const productsAPI = {
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
-    contextBridge.exposeInMainWorld('electronAPI', productsAPI)
+    contextBridge.exposeInMainWorld('electronPepe', {
+      ping: () => ipcRenderer.invoke('ping')
+    } 
+    )
   } catch (error) {
     console.error(error)
   }
