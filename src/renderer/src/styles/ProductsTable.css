@@ -1,0 +1,12 @@
+.ctn-products-table {
+    margin-top: 40px;
+    background-color: #080809;
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.btn-add-product{
+    display: flex;
+    justify-content: end;
+    margin-bottom: 15px;
+}
