@@ -32,11 +32,12 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { Column, DataTable, Button, DynamicDialog } from 'primevue';
+import { Column, DataTable, Button } from 'primevue';
 import { useProducts } from '../composables/useProducts.js'
 import '../styles/ProductsTable.css';
 import { useDialog } from 'primevue/usedialog';
 import NewArticle from './NewArticle.vue';
+import DynamicDialog from 'primevue/dynamicdialog';
 
 const dialog = useDialog();
 const products = ref(null);
@@ -54,7 +55,12 @@ const showNewArticle = () => {
                 '960px': '75vw',
                 '640px': '90vw'
             },
-            modal: true
+        },
+        modal: true,
+        emits: {
+        onSave: (e) => {
+            console.log(e);  // {user: 'primetime'}
+        }
         }
     });
 }

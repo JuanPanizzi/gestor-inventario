@@ -44,7 +44,7 @@
       </div>
   
       <div class="submit-button">
-        <Button label="Guardar" icon="pi pi-save" type="submit" />
+        <Button label="Guardar" icon="pi pi-save" type="submit" @click="saveButtonClick" />
       </div>
     </Form>
   </template>
@@ -61,6 +61,13 @@
     stock: null,
     notes: ''
   });
+  const emit = defineEmits(['save']);
+
+  function saveButtonClick() {
+    console.log('hola')
+    emit('save', {...product});
+}
+
   </script>
   
   <style scoped>
