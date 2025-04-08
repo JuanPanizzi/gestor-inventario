@@ -1,71 +1,104 @@
 <template>
-
     <Form>
-        <div class="form-container">
-
-        <div class="name">
-                <label for="name">Nombre</label>
-            <InputText id="name" v-model="product.name" required />
+      <div class="form-container">
+        <div class="form-field">
+          <label for="name">Nombre</label>
+          <InputText id="name" v-model="product.name" required />
         </div>
-
-        <div class="marca">
-            <label for="brand">Marca</label>
-            <InputText id="brand" v-model="product.brand" required />
+  
+        <div class="form-field">
+          <label for="brand">Marca</label>
+          <InputText id="brand" v-model="product.brand" required />
         </div>
-
-        <div class="precio">
-            <label for="sale_price">Precio de venta</label>
-            <InputNumber id="sale_price" v-model="product.sale_price" mode="currency" currency="USD" locale="en-US"
-                required />
+  
+        <div class="form-field">
+          <label for="sale_price">Precio de venta</label>
+          <InputNumber
+            id="sale_price"
+            v-model="product.sale_price"
+            mode="currency"
+            currency="USD"
+            locale="en-US"
+            required
+          />
         </div>
-
-        <div class="notas">
-            <label for="notes">Notas</label>
-            <Textarea id="notes" v-model="product.notes" rows="3" autoResize />
+  
+        <div class="form-field">
+          <label for="stock">Stock</label>
+          <InputNumber
+            id="stock"
+            v-model="product.stock"
+            required
+          />
         </div>
-        
-    </div>
+  
+        <div class="form-field full-width">
+          <label for="notes">Notas</label>
+          <Textarea
+            id="notes"
+            v-model="product.notes"
+            rows="3"
+            autoResize
+          />
+        </div>
+      </div>
+  
+      <div class="submit-button">
         <Button label="Guardar" icon="pi pi-save" type="submit" />
-
-
+      </div>
     </Form>
-
-
-</template>
-<script setup>
-
-import { Form } from '@primevue/forms';
-import { Button, InputNumber, InputText, Textarea } from 'primevue';
-import { reactive } from 'vue';
-
-const product = reactive({
-  name: '',
-  brand: '',
-  sale_price: null,
-  notes: ''
-})
-</script>
-<style scoped>
-.form-container {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 1rem;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-@media (max-width: 600px) {
+  </template>
+  
+  <script setup>
+  import { Form } from '@primevue/forms';
+  import { Button, InputNumber, InputText, Textarea } from 'primevue';
+  import { reactive } from 'vue';
+  
+  const product = reactive({
+    name: '',
+    brand: '',
+    sale_price: null,
+    stock: null,
+    notes: ''
+  });
+  </script>
+  
+  <style scoped>
   .form-container {
-    padding: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    max-width: 600px;
+    margin: 2rem auto;
   }
-
-  .p-card {
-    padding: 1rem;
+  
+  .form-field {
+    display: flex;
+    flex-direction: column;
   }
-
-  .p-button {
-    width: 100%;
+  
+  .full-width {
+    grid-column: span 2;
   }
-}
-</style>
+  
+  .submit-button {
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+  
+  @media (max-width: 600px) {
+    .form-container {
+      grid-template-columns: 1fr;
+      padding: 0 1rem;
+    }
+  
+    .full-width {
+      grid-column: span 1;
+    }
+  
+    .submit-button .p-button {
+      width: 100%;
+    }
+  }
+  </style>
+  
