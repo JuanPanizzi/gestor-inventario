@@ -7,6 +7,7 @@ import 'primeicons/primeicons.css'
 import router from './router/router.js'
 import Aura from '@primeuix/themes/aura';
 import DialogService from 'primevue/dialogservice';
+import ToastService from 'primevue/toastservice';
 // createApp(App).mount('#app')
 
 const app = createApp(App);
@@ -20,5 +21,5 @@ app.use(PrimeVue, {
 
 app.use(router)
 app.use(DialogService);
-
+app.use(ToastService);
 app.mount('#app');

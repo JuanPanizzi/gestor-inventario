@@ -27,12 +27,12 @@
     </div>
 
     <DynamicDialog />
-
+<Toast />
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { Column, DataTable, Button } from 'primevue';
+import { Column, DataTable, Button, useToast, Toast } from 'primevue';
 import { useProducts } from '../composables/useProducts.js'
 import '../styles/ProductsTable.css';
 import { useDialog } from 'primevue/usedialog';
@@ -41,8 +41,9 @@ import DynamicDialog from 'primevue/dynamicdialog';
 
 const dialog = useDialog();
 const products = ref(null);
-const { getProducts } = useProducts();
+const { getProducts, createProduct } = useProducts();
 
+const toast = useToast();
 
 const showNewArticle = () => {
     dialog.open(NewArticle, {
@@ -59,10 +60,33 @@ const showNewArticle = () => {
         modal: true,
         emits: {
         onSave: (e) => {
+            console.log('producto que llega')
             console.log(e);  // {user: 'primetime'}
+            saveProduct(e);
         }
         }
     });
+}
+
+const saveProduct = async (product) => {
+    
+    
+    const response = await createProduct(product);
+
+    if(response.success) {
+        console.log('response.data on productsTable: 23 ', response.data)
+        products.value.push(response.data)
+        
+        toast.add({ severity: 'success', summary: 'Éxito', detail: 'Product creado correctamente' });
+
+    } else {
+        console.error('Error creating product:', response.error);
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Error creando el producto' });
+    }
+
+    // Call the API to create the product
+    // After creating the product, you can close the dialog and refresh the products list
+    // dialog.closeAll();
 }
 
 onMounted(async () => {

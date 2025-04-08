@@ -6,7 +6,7 @@ export function useProducts() {
             try {
                 //const response = await window.electronAPI.productsAPI.getProducts();
                 const response = await window.api.getProducts();
-                console.log('resposne on use Products', response)
+                console.log('response on use Products', response)
                 if(response.success){
                     return {success: true, data: response.data}
                 }
@@ -15,9 +15,24 @@ export function useProducts() {
             }
      }
 
+     const createProduct = async(product) => {
+     console.log('product que se manda', product)
+        try {
+         
+            const response = await window.api.createProduct(product);   
+            console.log('response on use Products', response)
+
+            if(response.success){
+                return {success: true, data: response.data}
+            }
+        } catch (error) {
+            return { success: false}
+        }
+    }
 
     return {
-        getProducts
+        getProducts,
+        createProduct
     }
 
 }

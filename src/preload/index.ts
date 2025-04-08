@@ -1,5 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import { create } from 'domain'
+import { Product } from '../main/types/Product'
 
 // Custom APIs for renderer
 const productsAPI = {
@@ -15,6 +17,7 @@ if (process.contextIsolated) {
     contextBridge.exposeInMainWorld('api', {
       ping: () => ipcRenderer.invoke('ping'),
       getProducts: () => ipcRenderer.invoke('get-products'),
+      createProduct: (product: Product) => ipcRenderer.invoke('create-product', product),
     } 
     )
   } catch (error) {
