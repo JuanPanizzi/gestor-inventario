@@ -59,9 +59,9 @@ import { useProducts } from '../composables/useProducts.js'
 const dialogRef = inject('dialogRef');
 
 const { createProduct } = useProducts();
-const closeDialog = (createdProduct) => {
+const closeDialog = (productData) => {
     dialogRef.value.close({
-        createdProduct: {...createdProduct} 
+        dialogData: {product: productData.product, success: productData.success}, 
     });
 }
   const product = reactive({
@@ -84,20 +84,18 @@ const closeDialog = (createdProduct) => {
 
 const saveProduct = async () => {
     
-    console.log('product que se manda ', product)
+    
     const response = await createProduct({...product});
 
     if(response.success) {
-        console.log('response.data on productsTable: 23 ', response.data)
         // products.value.push(response.data)
-        const createdProduct = response.data;
-        console.log('createdProduct', createdProduct)
-        closeDialog(createdProduct);
+        const createdProduct = {...response.data}
+        closeDialog({product: createdProduct, success: true});
         
 
     } else {
         console.error('Error creating product:', response.error);
-        closeDialog();
+        closeDialog({product: null, success: false});
     }
 
 }

@@ -20,22 +20,15 @@ export const getProducts = async () => {
 
  export const createProduct = async (product: Product) => {
     try {
-        console.log('product que llega', product)
+    
         const { name, brand, sale_price, notes } = product;
 
         const stmt = db.prepare(`INSERT INTO products (name, brand, sale_price, notes) VALUES (?, ?, ?, ?)`);    
         const result = stmt.run(name, brand, sale_price, notes);
 
         if (result.changes > 0) {
-            const newProduct = {
-                id: result.lastInsertRowid,
-                name,
-                brand,
-                sale_price,
-                notes,
-              };
-            
-            return { success: true, data: newProduct};
+         
+            return { success: true, data: { id: result.lastInsertRowid, ...product } };
         }
         
         return { success: false, message: 'Error al crear producto' };

@@ -10,7 +10,6 @@ export const productsHandler = () => {
         return await getProducts();
     });
     ipcMain.handle('create-product', async (_event, product: Product)=> {
-        console.log('product en main', product)
         return await createProduct(product);
    
     });

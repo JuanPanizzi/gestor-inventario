@@ -67,12 +67,12 @@ const showNewArticle = () => {
         // }
         onClose: (opt) => {
             const callbackParams = opt.data; 
-            if(callbackParams){
-                console.log('callbackParams', callbackParams)
-                products.value.push(callbackParams.createdProduct);
-                toast.add({ severity: 'success', summary: 'Éxito', detail: 'Producto creado correctamente' });
-            }else{
-                toast.add({ severity: 'error', summary: 'Error', detail: 'Error creando el producto' });
+            if(callbackParams.dialogData.success){
+
+                products.value.push(callbackParams.dialogData.product);
+                toast.add({ severity: 'success', summary: 'Éxito', detail: 'Producto creado correctamente', life: 5000 });
+            }else if(callbackParams.dialogData.product === null && !callbackParams.dialogData.success){
+                toast.add({ severity: 'error', summary: 'Error', detail: 'Error creando el producto', life: 5000 });
             }
         }
     });
