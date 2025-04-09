@@ -58,36 +58,26 @@ const showNewArticle = () => {
                 '640px': '90vw'
             },
         },
-        emits: {
-        onSave: (e) => {
-            console.log('producto que llega')
-            console.log(e);  // {user: 'primetime'}
-            saveProduct(e);
-        }
+        // emits: {
+        // onSave: (e) => {
+        //     console.log('producto que llega')
+        //     console.log(e);  // {user: 'primetime'}
+        //     saveProduct(e);
+        // },
+        // }
+        onClose: (opt) => {
+            const callbackParams = opt.data; 
+            if(callbackParams){
+                console.log('callbackParams', callbackParams)
+                products.value.push(callbackParams.createdProduct);
+                toast.add({ severity: 'success', summary: 'Éxito', detail: 'Producto creado correctamente' });
+            }else{
+                toast.add({ severity: 'error', summary: 'Error', detail: 'Error creando el producto' });
+            }
         }
     });
 }
 
-const saveProduct = async (product) => {
-    
-    
-    const response = await createProduct(product);
-
-    if(response.success) {
-        console.log('response.data on productsTable: 23 ', response.data)
-        products.value.push(response.data)
-        
-        toast.add({ severity: 'success', summary: 'Éxito', detail: 'Product creado correctamente' });
-
-    } else {
-        console.error('Error creating product:', response.error);
-        toast.add({ severity: 'error', summary: 'Error', detail: 'Error creando el producto' });
-    }
-
-    // Call the API to create the product
-    // After creating the product, you can close the dialog and refresh the products list
-    // dialog.closeAll();
-}
 
 onMounted(async () => {
     const response = await getProducts();

@@ -44,7 +44,7 @@
       </div>
   
       <div class="submit-button">
-        <Button label="Guardar" icon="pi pi-save" type="submit" @click="saveButtonClick" />
+        <Button label="Guardar" icon="pi pi-save" type="submit" @click="saveProduct" />
       </div>
     </Form>
   </template>
@@ -53,7 +53,17 @@
   import { Form } from '@primevue/forms';
   import { Button, InputNumber, InputText, Textarea } from 'primevue';
   import { reactive } from 'vue';
-  
+import { inject } from "vue";
+import { useProducts } from '../composables/useProducts.js'
+
+const dialogRef = inject('dialogRef');
+
+const { createProduct } = useProducts();
+const closeDialog = (createdProduct) => {
+    dialogRef.value.close({
+        createdProduct: {...createdProduct} 
+    });
+}
   const product = reactive({
     name: '',
     brand: '',
@@ -61,11 +71,35 @@
     stock: null,
     notes: ''
   });
+
+  
   const emit = defineEmits(['save']);
 
-  function saveButtonClick() {
-    console.log('hola')
-    emit('save', {...product});
+//   function saveButtonClick() {
+    
+    
+//     emit('save', {...product});
+// }
+
+
+const saveProduct = async () => {
+    
+    console.log('product que se manda ', product)
+    const response = await createProduct({...product});
+
+    if(response.success) {
+        console.log('response.data on productsTable: 23 ', response.data)
+        // products.value.push(response.data)
+        const createdProduct = response.data;
+        console.log('createdProduct', createdProduct)
+        closeDialog(createdProduct);
+        
+
+    } else {
+        console.error('Error creating product:', response.error);
+        closeDialog();
+    }
+
 }
 
   </script>
