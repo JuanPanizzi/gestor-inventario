@@ -17,7 +17,7 @@
                     <div class="flex items-center gap-x-2 bg-red-200" style="display: flex;">
 
                         <Button icon="pi pi-pencil" class="mr-2" severity="success" outlined
-                            @click="editProduct(slotProps.data)"></Button>
+                            @click="editProduct(slotProps.data)" style="margin-right: 10px;"></Button>
                         <Button icon="pi pi-trash" severity="danger" outlined
                             @click="removeProduct(slotProps.data?.id)"></Button>
                     </div>
@@ -38,8 +38,10 @@ import '../styles/ProductsTable.css';
 import { useDialog } from 'primevue/usedialog';
 import NewArticle from './NewArticle.vue';
 import DynamicDialog from 'primevue/dynamicdialog';
+import EditArticle from './EditArticle.vue';
 
 const dialog = useDialog();
+
 const products = ref(null);
 const { getProducts, createProduct, deleteProduct} = useProducts();
 
@@ -88,7 +90,35 @@ const removeProduct = async (id) =>{
         toast.add({ severity: 'error', summary: 'Error', detail: 'Error eliminando el producto', life: 5000 });
     }
 }
-
+const editProduct = (product) => {
+    console.log('product', product)
+    dialog.open(EditArticle, {
+        modal: true,
+        data: {
+            selectedProduct: {...product}
+        },
+        props: {
+            header: 'Editar Artículo',
+            
+            style: {
+                width: '50vw',
+            },
+            breakpoints:{
+                '960px': '75vw',
+                '640px': '90vw'
+            },
+        },
+        onClose: (opt) => {
+            const callbackParams = opt.data; 
+            if(callbackParams.dialogData.success){
+                products.value = products.value.map((p) => p.id === callbackParams.dialogData.product.id ? callbackParams.dialogData.product : p);
+                toast.add({ severity: 'success', summary: 'Éxito', detail: 'Producto editado correctamente', life: 5000 });
+            }else if(callbackParams.dialogData.product === null && !callbackParams.dialogData.success){
+                toast.add({ severity: 'error', summary: 'Error', detail: 'Error editando el producto', life: 5000 });
+            }
+        }
+    });
+}
 
 onMounted(async () => {
     const response = await getProducts();

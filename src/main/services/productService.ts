@@ -61,3 +61,28 @@ export const getProducts = async () => {
     }
     
  }
+
+ export const updateProduct = async (product: Product) => {
+    try {
+        
+        const { id, name, brand, sale_price, notes } = product;
+
+        const stmt = db.prepare(`UPDATE products SET name = ?, brand = ?, sale_price = ?, notes = ? WHERE id = ?`);    
+        const result = stmt.run(name, brand, sale_price, notes, id);
+
+        if (result.changes > 0) {
+         
+            return { success: true, data: { id, ...product } };
+        }
+        
+        return { success: false, message: 'Error al actualizar producto' };
+        
+    } catch (error) {
+        
+        return { success: false }
+
+    }
+    
+ }
+
+

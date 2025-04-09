@@ -6,7 +6,7 @@ export function useProducts() {
             try {
                 //const response = await window.electronAPI.productsAPI.getProducts();
                 const response = await window.api.getProducts();
-                console.log('response on use Products', response)
+                // console.log('response on use Products', response)
                 if(response.success){
                     return {success: true, data: response.data}
                 }
@@ -20,7 +20,7 @@ export function useProducts() {
         try {
          
             const response = await window.api.createProduct(product);   
-            console.log('response on use Products', response)
+            // console.log('response on use Products', response)
 
             if(response.success){
                 return {success: true, data: response.data}
@@ -33,7 +33,7 @@ export function useProducts() {
     const deleteProduct = async(id) => {
         try {
             const response = await window.api.deleteProduct(id);   
-            console.log('response on use Products', response)
+           
 
             if(response.success){
                 return {success: true}
@@ -45,10 +45,25 @@ export function useProducts() {
         }
     }
 
+    const updateProduct = async(product) => {
+        try {
+            const response = await window.api.updateProduct(product);   
+            
+            if(response.success){
+                return {success: true, data: response.data}
+            }else{
+                return {success: false}
+            }
+        } catch (error) {
+            return { success: false}
+        }
+    }
+
     return {
         getProducts,
         createProduct,
-        deleteProduct
+        deleteProduct,
+        updateProduct
     }
 
 }
