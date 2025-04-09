@@ -47,6 +47,7 @@ const toast = useToast();
 
 const showNewArticle = () => {
     dialog.open(NewArticle, {
+        modal: true,
         props: {
             header: 'Crear Artículo',
             style: {
@@ -57,7 +58,6 @@ const showNewArticle = () => {
                 '640px': '90vw'
             },
         },
-        modal: true,
         emits: {
         onSave: (e) => {
             console.log('producto que llega')

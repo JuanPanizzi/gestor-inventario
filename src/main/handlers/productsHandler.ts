@@ -1,17 +1,17 @@
-import { IpcMain } from "electron";
+import { ipcMain, IpcMain } from "electron";
 import { createProduct, getProducts } from "../services/productService";
 import { Product } from "../types/Product";
 
 
-export function productsHandler(ipcMain: IpcMain){
+export const productsHandler = () => {
 
     ipcMain.handle('get-products', async ()=> {
-
+   
         return await getProducts();
     });
-    ipcMain.handle('create-product', async (event, product: Product)=> {
+    ipcMain.handle('create-product', async (_event, product: Product)=> {
         console.log('product en main', product)
         return await createProduct(product);
-
+   
     });
-}
+ }

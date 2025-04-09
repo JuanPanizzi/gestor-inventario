@@ -3,7 +3,8 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 // import { productsHandler } from './handlers/productsHandler'
-import { getProducts } from './services/productService'
+import { createProduct, getProducts } from './services/productService'
+import { productsHandler } from './handlers/productsHandler'
 
 function createWindow(): void {
   // Create the browser window.
@@ -26,14 +27,22 @@ function createWindow(): void {
     return 'pong'}
   )
 
-  ipcMain.handle('get-products',  () => {
-    console.log('getProducts')
+  // ipcMain.handle('get-products',  async () => {
+  //   console.log('getProducts')
 
-      return  getProducts()
-    }
-  )
+  //   const response = await getProducts()
+  //     return  response;
+  //   }
+  // )
+  // ipcMain.handle('create-product',  async(event, product) => {
 
-  // productsHandler(ipcMain)
+  //   const response = await createProduct(product);
+  //   console.log('response on create product', response)
+  //   return response
+  //   }
+  // )
+
+  productsHandler()
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
