@@ -40,3 +40,24 @@ export const getProducts = async () => {
     }
     
  }
+
+ export const deleteProduct = async (id: number) => {
+    try {
+        
+        const stmt = db.prepare(`DELETE FROM products WHERE id = ?`);    
+        const result = stmt.run(id);
+
+        if (result.changes > 0) {
+         
+            return { success: true, data: { id } };
+        }
+        
+        return { success: false, message: 'Error al eliminar producto' };
+        
+    } catch (error) {
+        
+        return { success: false }
+
+    }
+    
+ }

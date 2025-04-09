@@ -1,5 +1,5 @@
 import { ipcMain, IpcMain } from "electron";
-import { createProduct, getProducts } from "../services/productService";
+import { createProduct, deleteProduct, getProducts } from "../services/productService";
 import { Product } from "../types/Product";
 
 
@@ -13,4 +13,8 @@ export const productsHandler = () => {
         return await createProduct(product);
    
     });
+    ipcMain.handle('delete-product', async (_event, id: number)=> {
+        return await deleteProduct(id);
+    })
+    
  }

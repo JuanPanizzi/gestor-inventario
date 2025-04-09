@@ -19,7 +19,7 @@
                         <Button icon="pi pi-pencil" class="mr-2" severity="success" outlined
                             @click="editProduct(slotProps.data)"></Button>
                         <Button icon="pi pi-trash" severity="danger" outlined
-                            @click="deleteProduct(slotProps.data)"></Button>
+                            @click="removeProduct(slotProps.data?.id)"></Button>
                     </div>
                 </template>
             </Column>
@@ -41,7 +41,7 @@ import DynamicDialog from 'primevue/dynamicdialog';
 
 const dialog = useDialog();
 const products = ref(null);
-const { getProducts, createProduct } = useProducts();
+const { getProducts, createProduct, deleteProduct} = useProducts();
 
 const toast = useToast();
 
@@ -76,6 +76,17 @@ const showNewArticle = () => {
             }
         }
     });
+}
+
+const removeProduct = async (id) =>{
+    console.log('id', id)
+    const response = await deleteProduct(id);
+    if(response.success) {
+        products.value = products.value.filter(product => product.id !== id);
+        toast.add({ severity: 'success', summary: 'Éxito', detail: 'Producto eliminado correctamente', life: 5000 });
+    }else{
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Error eliminando el producto', life: 5000 });
+    }
 }
 
 

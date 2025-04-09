@@ -18,6 +18,7 @@ if (process.contextIsolated) {
       ping: () => ipcRenderer.invoke('ping'),
       getProducts: () => ipcRenderer.invoke('get-products'),
       createProduct: (product: Product) => ipcRenderer.invoke('create-product', product),
+      deleteProduct: (id: number) => ipcRenderer.invoke('delete-product', id),
     } 
     )
   } catch (error) {

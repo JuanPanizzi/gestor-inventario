@@ -16,7 +16,7 @@ export function useProducts() {
      }
 
      const createProduct = async(product) => {
-     console.log('product que se manda', product)
+
         try {
          
             const response = await window.api.createProduct(product);   
@@ -30,9 +30,25 @@ export function useProducts() {
         }
     }
 
+    const deleteProduct = async(id) => {
+        try {
+            const response = await window.api.deleteProduct(id);   
+            console.log('response on use Products', response)
+
+            if(response.success){
+                return {success: true}
+            }else{
+                return {success: false}
+            }
+        } catch (error) {
+            return { success: false}
+        }
+    }
+
     return {
         getProducts,
-        createProduct
+        createProduct,
+        deleteProduct
     }
 
 }
