@@ -9,7 +9,11 @@
             tableStyle="min-width: 50rem" style="border-radius: 40px;">
             <Column field="name" header="Nombre" style="width: 25%"></Column>
             <Column field="brand" header="Marca" style="width: 25%"></Column>
-            <Column field="sale_price" header="Precio de venta" style="width: 25%"></Column>
+            <Column field="sale_price" header="Precio de venta" style="width: 25%" >
+                <template #body="slotProps">
+                    {{ formatCurrency(slotProps.data.sale_price) }}
+                </template>
+            </Column>
             <Column field="notes" header="Notas" style="width: 25%"></Column>
             <Column>
                 <template #body="slotProps">
@@ -46,6 +50,10 @@ const products = ref(null);
 const { getProducts, createProduct, deleteProduct} = useProducts();
 
 const toast = useToast();
+
+const formatCurrency = (value) => {
+    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+};
 
 const showNewArticle = () => {
     dialog.open(NewArticle, {
