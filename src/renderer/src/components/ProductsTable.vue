@@ -23,7 +23,7 @@
                         <Button icon="pi pi-pencil" class="mr-2" severity="success" outlined
                             @click="editProduct(slotProps.data)" style="margin-right: 10px;"></Button>
                         <Button icon="pi pi-trash" severity="danger" outlined
-                            @click="removeProduct(slotProps.data?.id)"></Button>
+                            @click="confirmDelete(slotProps.data)"></Button>
                     </div>
                 </template>
             </Column>
@@ -32,20 +32,22 @@
 
     <DynamicDialog />
 <Toast />
+<ConfirmPopup />
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { Column, DataTable, Button, useToast, Toast } from 'primevue';
+import { Column, DataTable, Button, useToast, Toast, useConfirm } from 'primevue';
 import { useProducts } from '../composables/useProducts.js'
 import '../styles/ProductsTable.css';
 import { useDialog } from 'primevue/usedialog';
 import NewArticle from './NewArticle.vue';
 import DynamicDialog from 'primevue/dynamicdialog';
 import EditArticle from './EditArticle.vue';
+import ConfirmPopup from 'primevue/confirmpopup';
 
 const dialog = useDialog();
-
+const confirm = useConfirm();
 const products = ref(null);
 const { getProducts, createProduct, deleteProduct} = useProducts();
 
@@ -87,12 +89,36 @@ const showNewArticle = () => {
         }
     });
 }
+const confirmDelete = (productSelected) => {
 
-const removeProduct = async (id) =>{
-    console.log('id', id)
-    const response = await deleteProduct(id);
+    const {id} = productSelected;
+
+    confirm.require({
+        // target: event.currentTarget,
+        message: '¿Seguro que quieres eliminar este producto?',
+        icon: 'pi pi-info-circle',
+        rejectProps: {
+            label: 'Cancelar',
+            severity: 'secondary',
+            outlined: true
+        },
+        acceptProps: {
+            label: 'Eliminar',
+            severity: 'danger'
+        },
+        accept: () => {
+           removeProduct(id)
+        },
+        // reject: () => {
+        //     toast.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+        // }
+    });
+};
+const removeProduct = async (productId) =>{
+    console.log('productId', productId)
+    const response = await deleteProduct(productId);
     if(response.success) {
-        products.value = products.value.filter(product => product.id !== id);
+        products.value = products.value.filter(product => product.id !== productId);
         toast.add({ severity: 'success', summary: 'Éxito', detail: 'Producto eliminado correctamente', life: 5000 });
     }else{
         toast.add({ severity: 'error', summary: 'Error', detail: 'Error eliminando el producto', life: 5000 });
