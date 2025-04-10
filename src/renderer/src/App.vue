@@ -24,8 +24,19 @@ const items = ref([
 </script>
 
 <template>
- <div class="card">
-        <Menubar :model="items" />
+ <section class="ctn-gral">
+        <Menubar :model="items" class="menu-bar" />
         <RouterView />
-    </div>
+    </section>
 </template>
+
+<style scoped>
+
+.ctn-gral{
+    margin: 0 10px;
+}
+
+.menu-bar{
+    padding: 10px;
+}
+</style>

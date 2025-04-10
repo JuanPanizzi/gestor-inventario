@@ -1,6 +1,7 @@
 <template>
     <div class="ctn-products-table">
 
+        <h1>Inventario de Productos</h1>
         <div class="btn-add-product">
             <Button label="Agregar Producto" icon="pi pi-plus" @click="showNewArticle" />
         </div>

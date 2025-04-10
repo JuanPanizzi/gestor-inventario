@@ -3,12 +3,12 @@
       <div class="form-container">
         <div class="form-field">
           <label for="name">Nombre</label>
-          <InputText id="name" v-model="product.name" required />
+          <InputText id="name" v-model="product.name"  />
         </div>
   
         <div class="form-field">
           <label for="brand">Marca</label>
-          <InputText id="brand" v-model="product.brand" required />
+          <InputText id="brand" v-model="product.brand"  />
         </div>
   
         <div class="form-field">
@@ -19,7 +19,7 @@
             mode="currency"
             currency="USD"
             locale="en-US"
-            required
+            
           />
         </div>
   
@@ -28,7 +28,7 @@
           <InputNumber
             id="stock"
             v-model="product.stock"
-            required
+            
           />
         </div>
   
@@ -47,17 +47,18 @@
         <Button label="Guardar" icon="pi pi-save" type="submit" @click="saveProduct" />
       </div>
     </Form>
+    <Toast />
   </template>
   
   <script setup>
   import { Form } from '@primevue/forms';
-  import { Button, InputNumber, InputText, Textarea } from 'primevue';
-  import { reactive } from 'vue';
+  import { Button, InputNumber, InputText, Textarea, Toast, useToast } from 'primevue';
+  import { computed, reactive } from 'vue';
 import { inject } from "vue";
 import { useProducts } from '../composables/useProducts.js'
 
 const dialogRef = inject('dialogRef');
-
+const toast = useToast();
 const { createProduct } = useProducts();
 const closeDialog = (productData) => {
     dialogRef.value.close({
@@ -72,7 +73,10 @@ const closeDialog = (productData) => {
     notes: ''
   });
 
-  
+  const camposIncompletos = computed(()=> {
+    product.name && product && brand && sale_price && stock
+  })
+
   const emit = defineEmits(['save']);
 
 //   function saveButtonClick() {
@@ -83,7 +87,13 @@ const closeDialog = (productData) => {
 
 
 const saveProduct = async () => {
-    
+
+    if(!product.name || !product.brand || !product.sale_price || !product.stock){
+      toast.add({ severity: 'error', summary: 'Error', detail: 'Debe completar los campos obligatorios', life: 5000 });
+      return;
+      
+    }
+
     
     const response = await createProduct({...product});
 
